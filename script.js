@@ -45,9 +45,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 const renderProducts = async () => {
   const computers = await fetchProducts('computador');
   const { results } = computers;
-  results.forEach((element) => { listaItens.appendChild(createProductItemElement(element)); });
+  results.forEach((element) => listaItens.appendChild(createProductItemElement(element)));
 }; // Essa função retorna meus itens na tela
 window.onload = () => { 
   fetchProducts('computador');
-  renderProducts();
+  renderProducts();  
 }; 
