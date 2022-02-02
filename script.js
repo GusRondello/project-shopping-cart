@@ -1,4 +1,4 @@
-const { fetchProducts } = require('./helpers/fetchProducts');
+const listaItens = document.querySelector('.items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -14,7 +14,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -41,6 +41,13 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const renderProducts = async () => {
+  const computers = await fetchProducts('computador');
+  const { results } = computers;
+  results.forEach((element) => { listaItens.appendChild(createProductItemElement(element)); });
+}; // Essa função retorna meus itens na tela
 window.onload = () => { 
-  fetchProducts();
-};
+  fetchProducts('computador');
+  renderProducts();
+}; 
