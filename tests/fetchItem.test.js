@@ -10,4 +10,9 @@ describe('2 - Teste a função fecthItem', () => {
     await fecthItem('MLB1615760527');
     expect(fetch).toBeCalled();
   });
+  it('Se ao chamar a função fecthItem("MLB1615760527"), a função fetch utiliza o endpoit certo', async () => {
+    const url = 'https://api.mercadolibre.com/sites/MLB/search?q=computador'
+    await fetchProducts('computador');
+    expect(fetch).toHaveBeenCalledWith(url);
+  });
 });
