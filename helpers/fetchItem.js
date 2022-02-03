@@ -1,7 +1,7 @@
-const fetchItem = async (idSelecionado) => {
-  const selectedUrl = `https://api.mercadolibre.com/items/${idSelecionado}`;
+const fetchItem = async (id) => {
+  const idUrl = `https://api.mercadolibre.com/items/${id}`;
   try {
-    const response = await fetch(selectedUrl);
+    const response = await fetch(idUrl);
     const data = await response.json();
     return data;
   } catch (error) {
