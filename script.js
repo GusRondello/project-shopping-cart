@@ -1,5 +1,7 @@
 const listaItens = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
+/* const cartSection = document.querySelector('.cart');
+const subtotal = document.createElement('p'); */
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -34,6 +36,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   if (event.target.className === 'cart__item') { 
     event.target.remove(); 
+    saveCartItems(cartItems.innerHTML);
   }
 } // Essa função remove o item clicado do cart (entendi o paramentro do if correto com ajuda do Lucas Leal na mentoria do 2 dia)
 
@@ -42,11 +45,13 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+/*   cartSection.appendChild(subtotal);
+  subtotal.innerText = `Subtotal: R$ ${salePrice}`; */
   return li;
 }
 
 const renderProducts = async () => {
-  const computers = await fetchProducts();
+  const computers = await fetchProducts('computador');
   const { results } = computers;
   results.forEach((element) => listaItens.appendChild(createProductItemElement(element)));
 }; // Essa função retorna meus itens na tela (Tive ajuda da Ana na mentoria do dia 1)
@@ -59,10 +64,20 @@ const addToCart = async (event) => {
   saveCartItems(cartItems.innerHTML);
 }; // Essa função coloca os itens que foram clicados no botão "Adicionar ao carrinho" no carrinho (Consegui entender o event Target graças ao Leo Araujo)
 
+/* const cartPrice = async () => {
+  
+  const valor = 1;
+  const subtotal = document.createElement('p');
+  subtotal.innerText = `Subtotal: R$ ${valor}`;
+  cartSection.appendChild(subtotal);
+}; */
+
 window.onload = async () => { 
   cartItems.innerHTML = getSavedCartItems(); // com a ajuda do Imar Mendes consegui retornar o valor coreto para o cartItems
   await renderProducts(); // renderizamos os produtos na tela
-  const buttonAdd = document.querySelectorAll('.item__add'); // selecionamos o botão criado e adicionamos o item que é clicado no carrinho
-  buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); });
+  const buttonAdd = document.querySelectorAll('.item__add'); 
+  buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); }); // selecionamos o botão criado e adicionamos o item que é clicado no carrinho
   cartItems.addEventListener('click', cartItemClickListener);// removemos o item da lista do carrinho
+  // cartPrice();
+  // cartSection.insertBefore(subtotal, cartSection.childNodes[2]);
 }; 
