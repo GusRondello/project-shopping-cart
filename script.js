@@ -32,8 +32,10 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  if (event.target.className === 'cart__item') { event.target.remove(); }
-}
+  if (event.target.className === 'cart__item') { 
+    event.target.remove(); 
+  }
+} // Essa função remove o item clicado do cart (entendi o paramentro do if correto com ajuda do Lucas Leal na mentoria do 2 dia)
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -44,21 +46,21 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 const renderProducts = async () => {
-  const computers = await fetchProducts('computador');
+  const computers = await fetchProducts();
   const { results } = computers;
   results.forEach((element) => listaItens.appendChild(createProductItemElement(element)));
-}; // Essa função retorna meus itens na tela
+}; // Essa função retorna meus itens na tela (Tive ajuda da Ana na mentoria do dia 1)
 
 const addToCart = async (event) => {
   const selectedItem = event.target.parentNode;
   const itemId = getSkuFromProductItem(selectedItem);
   const addProduct = await fetchItem(itemId);
   cartItems.appendChild(createCartItemElement(addProduct));
-}; // Essa função coloca os itens que foram clicados no botão "Adicionar ao carrinho" no carrinho
+}; // Essa função coloca os itens que foram clicados no botão "Adicionar ao carrinho" no carrinho (Consegui entender o event Target graças ao Leo Araujo)
 
 window.onload = async () => { 
-  await renderProducts(); 
-  const buttonAdd = document.querySelectorAll('.item__add');
+  await renderProducts(); // renderizamos os produtos na tela
+  const buttonAdd = document.querySelectorAll('.item__add'); // selecionamos o botão criado e adicionamos o item que é clicado no carrinho
   buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); });
-  cartItems.addEventListener('click', cartItemClickListener);
+  cartItems.addEventListener('click', cartItemClickListener);// removemos o item da lista do carrinho
 }; 
