@@ -56,9 +56,11 @@ const addToCart = async (event) => {
   const itemId = getSkuFromProductItem(selectedItem);
   const addProduct = await fetchItem(itemId);
   cartItems.appendChild(createCartItemElement(addProduct));
+  saveCartItems(cartItems.innerHTML);
 }; // Essa função coloca os itens que foram clicados no botão "Adicionar ao carrinho" no carrinho (Consegui entender o event Target graças ao Leo Araujo)
 
 window.onload = async () => { 
+  cartItems.innerHTML = getSavedCartItems(); // com a ajuda do Imar Mendes consegui retornar o valor coreto para o cartItems
   await renderProducts(); // renderizamos os produtos na tela
   const buttonAdd = document.querySelectorAll('.item__add'); // selecionamos o botão criado e adicionamos o item que é clicado no carrinho
   buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); });
