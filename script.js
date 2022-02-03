@@ -1,5 +1,6 @@
 const listaItens = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -31,7 +32,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  if (event.target.className === 'cart__item') { event.target.remove(); }
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -53,11 +54,11 @@ const addToCart = async (event) => {
   const itemId = getSkuFromProductItem(selectedItem);
   const addProduct = await fetchItem(itemId);
   cartItems.appendChild(createCartItemElement(addProduct));
-};
+}; // Essa função coloca os itens que foram clicados no botão "Adicionar ao carrinho" no carrinho
 
 window.onload = async () => { 
   await renderProducts(); 
   const buttonAdd = document.querySelectorAll('.item__add');
   buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); });
-  // 
+  cartItems.addEventListener('click', cartItemClickListener);
 }; 
