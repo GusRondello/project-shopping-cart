@@ -1,6 +1,7 @@
 const listaItens = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
 const removeBtn = document.querySelector('.empty-cart');
+const header = document.querySelector('.header');
 /* const cartSection = document.querySelector('.cart');
 const subtotal = document.createElement('p'); */
 
@@ -51,6 +52,24 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+function createLoadingElement() {
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.innerText = 'Carregando...';
+  return span;
+}
+
+function removeLoadingElement() {
+  const getLoading = document.querySelector('.loading');
+  getLoading.remove();
+}
+function loadInteraction() {
+  header.appendChild(createLoadingElement());
+  setTimeout(() => {
+    removeLoadingElement();
+  }, 1000);
+}
+
 const renderProducts = async () => {
   const computers = await fetchProducts('computador');
   const { results } = computers;
@@ -81,12 +100,15 @@ const clearCart = () => {
 }; */
 
 window.onload = async () => { 
-  cartItems.innerHTML = getSavedCartItems(); // com a ajuda do Imar Mendes consegui retornar o valor coreto para o cartItems
-  await renderProducts(); // renderizamos os produtos na tela
-  const buttonAdd = document.querySelectorAll('.item__add'); 
-  buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); }); // selecionamos o botão criado e adicionamos o item que é clicado no carrinho
-  cartItems.addEventListener('click', cartItemClickListener);// removemos o item da lista do carrinho
-  removeBtn.addEventListener('click', clearCart);// removemos todos os itens do carrinho e storage data
+  loadInteraction();
+  window.setInterval(async () => {
+    cartItems.innerHTML = getSavedCartItems(); // com a ajuda do Imar Mendes consegui retornar o valor coreto para o cartItems
+    await renderProducts(); // renderizamos os produtos na tela
+    const buttonAdd = document.querySelectorAll('.item__add'); 
+    buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); }); // selecionamos o botão criado e adicionamos o item que é clicado no carrinho
+    cartItems.addEventListener('click', cartItemClickListener);// removemos o item da lista do carrinho
   // cartPrice();
   // cartSection.insertBefore(subtotal, cartSection.childNodes[2]);
+    removeBtn.addEventListener('click', clearCart);// removemos todos os itens do carrinho e storage data
+  }, 1000);
 }; 
