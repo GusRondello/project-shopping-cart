@@ -1,5 +1,6 @@
 const listaItens = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
+const removeBtn = document.querySelector('.empty-cart');
 /* const cartSection = document.querySelector('.cart');
 const subtotal = document.createElement('p'); */
 
@@ -64,6 +65,13 @@ const addToCart = async (event) => {
   saveCartItems(cartItems.innerHTML);
 }; // Essa função coloca os itens que foram clicados no botão "Adicionar ao carrinho" no carrinho (Consegui entender o event Target graças ao Leo Araujo)
 
+const clearCart = () => {
+  while (cartItems.firstChild) {
+    cartItems.removeChild(cartItems.firstChild);
+  }
+  saveCartItems(cartItems.innerHTML);
+}; // Essa função limpa o carrinho quando executada, e limpa o storage data também.
+
 /* const cartPrice = async () => {
   
   const valor = 1;
@@ -78,6 +86,7 @@ window.onload = async () => {
   const buttonAdd = document.querySelectorAll('.item__add'); 
   buttonAdd.forEach((button) => { button.addEventListener('click', addToCart); }); // selecionamos o botão criado e adicionamos o item que é clicado no carrinho
   cartItems.addEventListener('click', cartItemClickListener);// removemos o item da lista do carrinho
+  removeBtn.addEventListener('click', clearCart);// removemos todos os itens do carrinho e storage data
   // cartPrice();
   // cartSection.insertBefore(subtotal, cartSection.childNodes[2]);
 }; 
